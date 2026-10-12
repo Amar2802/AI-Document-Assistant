@@ -1,9 +1,11 @@
-
 require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,10 +24,28 @@ app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",
     service: "document-assistant-api",
-    timestamp: new Date().toISOString(),
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend running at http://localhost:${PORT}`);
+app.use("/api/auth", authRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+async function startServer() {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is missing from server/.env");
+  }
+
+  await connectDB();
+
+  app.listen(PORT, () => {
+    console.log(`Backend running at http://localhost:${PORT}`);
+  });
+}
+
+startServer().catch((error) => {
+  console.error("Server startup failed:", error.message);
+  process.exit(1);
 });
