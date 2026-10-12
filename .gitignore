@@ -1,35 +1,20 @@
-# Dependencies
+# Node.js dependencies
 node_modules/
-client/node_modules/
-server/node_modules/
+**/node_modules/
 
-# Build output
-dist/
-client/dist/
-server/dist/
-build/
+# Python virtual environments and cache
+**/.venv/
+**/__pycache__/
+*.py[cod]
 
 # Environment variables and secrets
 .env
 .env.*
 !.env.example
-client/.env
-client/.env.*
-!client/.env.example
-server/.env
-server/.env.*
-!server/.env.example
 
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
+# Build output
+client/dist/
 
-# Editor and operating system files
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
-
-# Coverage
-coverage/
+# Uploaded files
+server/uploads/
+uploads/
