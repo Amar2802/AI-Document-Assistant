@@ -172,7 +172,11 @@ router.post("/", authenticateToken, handleUpload, async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Document processing error:", error.message);
+    
+    console.error("Document processing error:", error);
+    console.error("Underlying cause:", error.cause);
+    console.error("Error name:", error.name);
+    console.error("Error code:", error.code);
 
     // Roll back partial ingestion so a failed upload is not left incomplete.
     if (document) {
